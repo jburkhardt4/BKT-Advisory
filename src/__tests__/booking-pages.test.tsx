@@ -89,8 +89,8 @@ describe('ConsultingBookingPage (/schedule)', () => {
     ).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Workshop' })).toBeInTheDocument();
 
-    // Explicit "1 hr" requested for Workshop.
-    expect(screen.getByText('1 hr')).toBeInTheDocument();
+    // Workshop duration matches the "N min" format used elsewhere for this event.
+    expect(screen.getByText('60 min')).toBeInTheDocument();
 
     // Interview content must NOT be on this page.
     expect(screen.queryByText('Intro Call')).toBeNull();

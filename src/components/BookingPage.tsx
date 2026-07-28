@@ -90,8 +90,8 @@ const consultingAppointments: Appointment[] = [
   {
     id: 'workshop',
     title: 'Workshop',
-    duration: '1 hr',
-    badge: '1 hr',
+    duration: '60 min',
+    badge: '60 min',
     description:
       'Lock in a one-on-one session with our lead advisors to refine your technical strategy and ensure your infrastructure is built for long-term scalability.',
     slug: 'workshop',
