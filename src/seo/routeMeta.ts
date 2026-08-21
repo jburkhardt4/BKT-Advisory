@@ -65,7 +65,7 @@ export const routeMeta: Record<string, RouteMeta> = {
   '/about': {
     title: 'About — BKT Advisory',
     description:
-      'John Burkhardt, Founder & Principal Consultant — the bridge between the Salesforce ecosystem and enterprise AI. 8x Salesforce Certified.',
+      'John Burkhardt, Founder & Principal Consultant — the bridge between the Salesforce ecosystem and enterprise AI. 5X Salesforce Certified.',
   },
   '/environments': {
     title: 'Environments — BKT Advisory',

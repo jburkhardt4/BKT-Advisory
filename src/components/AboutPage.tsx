@@ -37,15 +37,12 @@ const certifications = [
   'Salesforce Certified Platform App Builder',
   'Salesforce Certified AI Associate',
   'Salesforce Certified Agentforce Specialist',
-  'Salesforce Certified Sales Cloud Consultant',
-  'Salesforce Certified Service Cloud Consultant',
-  'Salesforce Certified Financial Services Cloud (FSC)',
 ];
 
 const highlights = [
   {
     icon: AwardIcon,
-    title: '8x Salesforce Certified',
+    title: '5X Salesforce Certified',
     description: 'Deep expertise across Sales Cloud, Service Cloud, and Financial Services Cloud',
   },
   {
@@ -112,7 +109,7 @@ export function AboutPage() {
                   architecture and AI-powered systems.
                 </p>
                 <p>
-                  With 8x Salesforce certifications and a background managing $837M+ in multifamily
+                  With 5X Salesforce certifications and a background managing $837M+ in multifamily
                   real estate transactions at Carter Funds, I bring a unique perspective that combines
                   enterprise-grade technical architecture with real-world deal execution experience.
                 </p>

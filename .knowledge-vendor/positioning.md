@@ -34,7 +34,7 @@ turning platform and AI complexity into a predictable growth engine for revenue 
 - **Banned words:** operationalize, leverage (verb), seamless, synergize, cutting-edge, supercharge.
 
 ## Proof points (single source of truth — converge all surfaces)
-- **8x Salesforce Certified** (the canonical cert count — was inconsistent 5x/7x/8x across files).
+- **5X Salesforce Certified** (the canonical cert count — was inconsistent 5x/7x/8x across files).
 - **$837M+ Transactions Closed** · **2x Qualified Pipeline** · **Weeks → Days** delivery.
 
 ## Usage
