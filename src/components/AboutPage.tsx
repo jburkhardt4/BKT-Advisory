@@ -37,7 +37,7 @@ const certifications = [
   'Salesforce Certified Platform App Builder',
   'Salesforce Certified AI Associate',
   'Salesforce Certified Agentforce Specialist',
-  ];
+];
 
 const highlights = [
   {

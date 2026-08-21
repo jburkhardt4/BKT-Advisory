@@ -618,6 +618,23 @@ html {
       transform: none;
     }
   }
+
+  /* Booking modal (BookingModal.tsx): Cal adds `cal-inline-container` to our
+     wrapper, which is the scroll surface, and grows the iframe inside it to the
+     full booker height. Once that iframe overflows, Chrome and WebKit drop both
+     the container's padding-bottom and the iframe's margin-bottom from the
+     scrollable overflow, so neither adds a gutter (verified empirically).
+     A full-width flex line after the iframe does work, because Cal sets
+     `flex-wrap: wrap` on cal-inline, so this wraps below it and extends the
+     scroll range. Without it the last time slot ends flush against the bottom
+     edge. Mobile only, so the desktop modal stays pixel-identical. */
+  @media (max-width: 767px) {
+    .cal-inline-container cal-inline::after {
+      content: '';
+      flex: 0 0 100%;
+      height: 3rem;
+    }
+  }
 }
 
 /* Print styles for PDF generation */
