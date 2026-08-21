@@ -13,8 +13,7 @@
 1. Authentication and protected routes
 2. Estimator accuracy and UX
 3. Quote-to-project automation
-4. Client/Admin portal integr
-ity
+4. Client/Admin portal integrity
 5. Mobile responsiveness
 6. Automated testing stability
 
