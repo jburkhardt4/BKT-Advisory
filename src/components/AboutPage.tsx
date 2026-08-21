@@ -32,7 +32,7 @@ const ShieldCheckIcon = ({ className, size }: { className?: string; size?: numbe
 );
 
 const certifications = [
-  'Salesforce Certified Administrator',
+  'Salesforce Certified Platform Administrator',
   'Salesforce Certified Business Analyst',
   'Salesforce Certified Platform App Builder',
   'Salesforce Certified AI Associate',
