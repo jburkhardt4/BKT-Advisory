@@ -30,3 +30,7 @@ Before doing any work, read and follow:
 
 * docs/orchestration/agentic-release-plan.md
 * docs/orchestration/prompt-library.md
+
+## Cross-repo memory
+
+Merged pull requests notify the BKT-WritingTools memory orchestrator via `.github/workflows/memory-notify.yml`, which keeps the shared `knowledge/memory` tree current.
