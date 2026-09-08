@@ -30,3 +30,6 @@ yarn-error.log*
 
 # TypeScript cache
 *.tsbuildinfo
+# Local clone of the retired standalone estimator repo (has its own .git).
+# Never stage it as a gitlink; the app now lives in estimator/.
+BKT-ProjectEstimator/

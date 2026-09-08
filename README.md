@@ -34,3 +34,10 @@ Before doing any work, read and follow:
 ## Cross-repo memory
 
 Merged pull requests notify the BKT-WritingTools memory orchestrator via `.github/workflows/memory-notify.yml`, which keeps the shared `knowledge/memory` tree current.
+
+## Project Estimator (`estimator/`)
+
+The standalone quoting tool at https://estimator.bktadvisory.com lives in
+[`estimator/`](estimator/README.md) and deploys as its own Vercel project
+(`bkt-estimator`, root directory `estimator`). It has its own `package.json`;
+run `cd estimator && npm ci && npm run dev` to work on it.
