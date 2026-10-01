@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { supabase } from "../supabase/client";
 import { useAuth } from "../contexts/AuthContext";
+import { getOAuthRedirectUrl, getPostAuthPath } from "../lib/authRedirect";
 
 // BKT brand assets
 const BKT_ICON_URL =
@@ -268,10 +269,7 @@ export function AuthPage() {
     if (authLoading) return;
     if (mode === "recovery") return;
     if (session) {
-      const from = location.state?.from;
-      const destination =
-        typeof from === "string" && from.startsWith("/") ? from : "/portal";
-      navigate(destination, { replace: true });
+      navigate(getPostAuthPath(location.state?.from), { replace: true });
     }
   }, [authLoading, session, navigate, location.state, mode]);
 
@@ -421,9 +419,7 @@ export function AuthPage() {
           return;
         }
       }
-      const from = location.state?.from;
-      const destination = typeof from === "string" && from.startsWith("/") ? from : "/portal";
-      navigate(destination, { replace: true });
+      navigate(getPostAuthPath(location.state?.from), { replace: true });
     } catch {
       setServerError("An unexpected error occurred. Please try again.");
     } finally {
@@ -534,19 +530,22 @@ export function AuthPage() {
       microsoft: "azure",
       linkedin: "linkedin_oidc",
     };
-    const from = location.state?.from;
-    const destination = typeof from === "string" && from.startsWith("/") ? from : "/portal";
-    const redirectTo = `${window.location.origin}${destination}`;
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: (providerMap[providerId] ?? providerId) as
-        | "google"
-        | "azure"
-        | "linkedin_oidc"
-        | "github",
-      options: { redirectTo },
-    });
-    if (error) {
-      setServerError(error.message);
+    const redirectTo = getOAuthRedirectUrl(location.state?.from);
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: (providerMap[providerId] ?? providerId) as
+          | "google"
+          | "azure"
+          | "linkedin_oidc"
+          | "github",
+        options: { redirectTo },
+      });
+      if (error) {
+        setServerError(error.message);
+        setSsoLoading(null);
+      }
+    } catch {
+      setServerError("We could not start single sign-on. Please try again.");
       setSsoLoading(null);
     }
   };

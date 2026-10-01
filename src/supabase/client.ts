@@ -1,42 +1,28 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from '../types/supabase';
+import { getSupabaseKeyProblem, getSupabaseProjectRef, resolveSupabaseEnv } from './config';
 
-function getRequiredEnvVar(name: string, value: string | boolean | undefined): string {
-  if (typeof value !== 'string' || value.trim() === '') {
+function getRequiredEnvVar(name: string, value: string | undefined): string {
+  if (!value) {
     throw new Error(`Missing required environment variable: ${name}`);
   }
   return value;
 }
 
-function getSupabaseProjectRef(url: string): string {
-  try {
-    const hostname = new URL(url).hostname;
-    const projectRef = hostname.split('.')[0];
-    if (!projectRef) {
-      throw new Error('Unable to determine Supabase project ref from URL.');
-    }
-    return projectRef;
-  } catch {
-    throw new Error(`Invalid Supabase URL: ${url}`);
-  }
-}
-
-const isProductionBuild = import.meta.env.PROD;
-
 // Prefer explicit local/cloud keys; fallback to legacy names to avoid breaking existing setups.
-export const supabaseUrl = getRequiredEnvVar(
-  isProductionBuild ? 'VITE_SUPABASE_URL_CLOUD' : 'VITE_SUPABASE_URL_LOCAL',
-  isProductionBuild
-    ? import.meta.env.VITE_SUPABASE_URL_CLOUD ?? import.meta.env.VITE_SUPABASE_URL
-    : import.meta.env.VITE_SUPABASE_URL_LOCAL ?? import.meta.env.VITE_SUPABASE_URL,
-);
+const resolvedEnv = resolveSupabaseEnv(import.meta.env, import.meta.env.PROD);
 
-export const supabaseAnonKey = getRequiredEnvVar(
-  isProductionBuild ? 'VITE_SUPABASE_ANON_KEY_CLOUD' : 'VITE_SUPABASE_ANON_KEY_LOCAL',
-  isProductionBuild
-    ? import.meta.env.VITE_SUPABASE_ANON_KEY_CLOUD ?? import.meta.env.VITE_SUPABASE_ANON_KEY
-    : import.meta.env.VITE_SUPABASE_ANON_KEY_LOCAL ?? import.meta.env.VITE_SUPABASE_ANON_KEY,
-);
+export const supabaseUrl = getRequiredEnvVar(resolvedEnv.urlVarName, resolvedEnv.url);
+export const supabaseAnonKey = getRequiredEnvVar(resolvedEnv.anonKeyVarName, resolvedEnv.anonKey);
+
+// The build already fails on a bad key (vite.config.ts); this catches dev servers
+// without taking the whole site down.
+const supabaseKeyProblem = getSupabaseKeyProblem(supabaseUrl, supabaseAnonKey);
+if (supabaseKeyProblem) {
+  console.error(
+    `[supabase] ${resolvedEnv.anonKeyVarName} is invalid: ${supabaseKeyProblem}. Auth requests will fail with "Invalid API key".`,
+  );
+}
 
 export const supabaseProjectRef = getSupabaseProjectRef(supabaseUrl);
 export const supabaseAuthStorageKey = `sb-${supabaseProjectRef}-auth-token`;
