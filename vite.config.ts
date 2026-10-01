@@ -1,12 +1,33 @@
 
   import { defineConfig } from 'vitest/config';
+  import { loadEnv } from 'vite';
+  import type { Plugin } from 'vite';
   import react from '@vitejs/plugin-react';
   import tailwindcss from '@tailwindcss/vite';
   import path from 'path';
   import { mcpPlugin } from './mcp-plugin';
+  import { getSupabaseKeyProblem, resolveSupabaseEnv } from './src/supabase/config';
+
+  // Fail the build instead of shipping a bundle whose Supabase key the API rejects
+  // ("401 Invalid API key" on every auth call).
+  function supabaseEnvGuard(): Plugin {
+    return {
+      name: 'bkt-supabase-env-guard',
+      apply: 'build',
+      config(_config, { mode }) {
+        const env = loadEnv(mode, process.cwd(), 'VITE_');
+        const resolved = resolveSupabaseEnv(env, true);
+        if (!resolved.url || !resolved.anonKey) return;
+        const problem = getSupabaseKeyProblem(resolved.url, resolved.anonKey);
+        if (problem) {
+          throw new Error(`[supabase] ${resolved.anonKeyVarName} is invalid: ${problem}.`);
+        }
+      },
+    };
+  }
 
   export default defineConfig({
-    plugins: [react(), tailwindcss(), mcpPlugin()],
+    plugins: [react(), tailwindcss(), mcpPlugin(), supabaseEnvGuard()],
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
       alias: {

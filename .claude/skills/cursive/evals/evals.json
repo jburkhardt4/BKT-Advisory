@@ -1,0 +1,88 @@
+{
+  "skill_name": "cursive",
+  "evals": [
+    {
+      "id": 0,
+      "name": "open-pr-green-ci-not-shipped",
+      "prompt": "Can you turn this into something I can send my co-founder tonight? She runs ops and sales, has never written code, and she's been asking for two weeks whether the iOS thing is actually happening.\n\n---\nSession summary, branch `claude/ios-phase0-docs`:\n\nPushed 4 commits, opened PR #14 (DRAFT) against main. 13 files changed, +4097/-1.\n\n- Committed approved iOS implementation plan to docs/ios/\n- Added ios/ ALL-RIGHTS-RESERVED carve-out (ios/README.md + root README/LICENSE notices) \u2014 proprietary boundary so the iOS app isn't covered by the repo's GPL-3.0\n- Authored 9 Phase 0 spec docs: PRD.md, command-contract.md, provider-contract.md, sync-contract.md, privacy-invariants.md, test-uat-plan.md, release-plan.md, parity-checklist.md, docs/adr/002-ios-clean-room-architecture.md\n- Ran 3 audit passes (clean-room expression, cross-doc consistency, coverage/traceability): 16 findings, 3 major / 13 minor, all fixed in a5eb2a2\n\nCI: 3/3 green (ruff lint gate, triage_core unit tests, headless e2e wiring smoke).\n\nNOT done: no human review yet, PR is still draft, zero Swift code written, Apple Developer enrollment not started, 5 open decisions blocking Phase 1 (OD-1 Gemini safety default, OD-2 Anthropic default model, OD-3 language set, OD-4 external beta timing, OD-5 BKT-original action timing).",
+      "expected_output": "Plain-language update that makes clear this is a documentation/planning milestone with a draft PR awaiting review, no app code, nothing shipped or usable; green CI framed as automated checks only; the 5 open decisions surfaced as blocking.",
+      "files": [],
+      "assertions": [
+        "States explicitly that no iOS app code has been written yet (specs/planning only)",
+        "Describes the pull request as a draft awaiting human review \u2014 not as merged, approved, delivered, or shipped",
+        "Does not claim or imply the iOS app is built, launched, testable, or available to users",
+        "Presents the green CI result as automated checks only, not as evidence the iOS app works",
+        "Surfaces that open decisions and/or human sign-off are blocking the next phase",
+        "Explains or avoids technical shorthand (PR, CI, branch, commit hash) rather than using it undefined"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "unmeasured-routing-optimization",
+      "prompt": "write this up for our weekly exec email pls. audience is our CEO + head of finance, both non technical. keep it tight\n\nsmart triage routing optimization \u2014 merged to main this morning (PR #12, commit 8039987)\n\n- added a merit gate so low-accuracy actions stop auto-executing (was bypassed by training mode on 138/162 logged events, now always adjudicates)\n- structural catalog filtering: text-only actions are now excluded from the candidate set when there's no selected text, so the model can't pick them at all (previously a prompt-level instruction that got violated 12 times out of 162)\n- correction capture fixed so the picker can't be abandoned into a null override (was 7/22)\n\nexpected effect: fewer wasted model calls per session since we stop firing actions that get dismissed. 41% of all dismissals traced to that one guardrail violation.\n\nno cost measurement yet \u2014 we don't have per-session token accounting wired up, that's a separate piece of work. deployed to main but the desktop app ships on a manual release cadence, users are still on v1.0.0.",
+      "expected_output": "Executive update that explains the routing improvement in plain language, states clearly that no cost saving has been measured and users don't have it yet (still on v1.0.0 pending a manual release), and does not convert the 41% dismissal statistic into a claimed saving.",
+      "files": [],
+      "assertions": [
+        "States explicitly that no cost saving has been measured",
+        "States that users do not have the change yet (still on v1.0.0 / manual release cadence)",
+        "Does not present the 41% dismissal figure or 'fewer wasted model calls' as a realized or quantified saving",
+        "Explains the routing/guardrail change in plain language without relying on undefined terms like 'merit gate' or 'catalog filtering'",
+        "Distinguishes merged-to-main from released-to-users"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "security-fix-not-pentested",
+      "prompt": "Our biggest client emailed asking about the vulnerability we disclosed to them last week. I need to reply with a status update. They're a hospital procurement team \u2014 smart people, zero engineers in the room. Here's what our dev did:\n\nFixed the auth bypass in the session handling (CVE pending, internal ref SEC-2026-03). Root cause: session tokens weren't being invalidated server-side on logout, so a captured token stayed valid for the full 30-day TTL even after the user logged out.\n\nChanges: server-side token revocation list, TTL cut 30d -> 12h, logout now revokes on the server not just clears the client cookie. Added 6 unit tests covering revocation paths, all pass. Code review done by one other engineer, merged to main, deployed to staging.\n\nNot done: no penetration test on the fix, no third-party security audit, not deployed to production yet (waiting on the Thursday release window). We also haven't determined whether any tokens were actually captured in the wild \u2014 logs only go back 14 days and the vulnerability existed for ~8 months.",
+      "expected_output": "Client-facing update that is honest that the fix is coded, reviewed, and in staging but NOT in production, NOT penetration-tested, and that exposure cannot be ruled out due to the 14-day log retention vs 8-month vulnerability window. Must not imply the client is now protected.",
+      "assertions": [
+        "States the fix is not yet deployed to production",
+        "States that no penetration test or independent security audit has been performed on the fix",
+        "Discloses that whether any tokens were actually captured cannot be determined (14-day log retention vs ~8-month exposure window)",
+        "Does not state or imply the client is now protected, secure, or that the risk is resolved",
+        "Tells the client what happens next and/or what timing to expect (Thursday release window)"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "invisible-refactor",
+      "prompt": "My board keeps asking what engineering has been doing for the last three weeks and honestly this is hard to explain because nothing looks different. Help.\n\nRefactor: extracted all provider logic out of WritingToolApp.py into a proper abstract base class in aiprovider.py. 1,900 lines moved/rewritten. Consolidated 4 duplicated UI stylesheet blocks into UIUtils. Removed ~340 lines of verified dead code (the response-window zoom re-apply path, a dead cancel() no-op). Split PyInstaller into a build-only requirements file.\n\nZero user-visible changes \u2014 this is purely internal structure. All 1,240 tests still pass, no behavior change intended or observed.\n\nWhy we did it: adding a new AI provider used to take ~2 days and touch 6 files. Now it's implementing one interface. We have 3 more providers to add this quarter (Anthropic, Mistral, OpenRouter).",
+      "expected_output": "Explains internal restructuring honestly, states there is no user-visible change, and grounds the value in the specific source-supported claim about provider-addition effort without inventing metrics or velocity claims.",
+      "assertions": [
+        "States plainly that there is no user-visible change",
+        "Grounds the value in the source's specific claim about adding new providers (previously ~2 days across 6 files) rather than inventing metrics",
+        "Does not claim performance, speed, reliability, or stability improvements that the source does not support",
+        "Presents the passing test suite as evidence nothing broke, not as evidence the product improved",
+        "Names the concrete forward payoff the source supports (3 more providers planned this quarter)"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "contradictory-completion-claims",
+      "prompt": "I inherited this handoff doc from a contractor who's now unreachable and I have to brief my leadership team on Monday. Can you make sense of it for them? None of them are technical.\n\n=== HANDOFF: payments-v2 ===\nStatus: COMPLETE. Ready for production.\n\nStripe integration rewritten, webhook handling moved to a queue, idempotency keys added on all charge paths. Refunds working end to end.\n\nOutstanding items:\n- Webhook signature verification is stubbed out (returns true) \u2014 TODO before prod\n- Refund flow tested manually only, no automated tests\n- Idempotency keys implemented on charges, NOT on refunds (known gap, ticket PAY-441)\n- Load testing not started\n- Currently deployed to staging with test-mode Stripe keys\n\nSign-off: engineering complete, awaiting QA.\n\nMigration plan: cut over during a maintenance window, rollback by DNS revert. (Rollback untested.)",
+      "expected_output": "Flags the contradiction between 'COMPLETE / Ready for production' and the outstanding items (stubbed signature verification, no refund idempotency, staging with test keys, untested rollback) rather than resolving it silently; makes clear this is not production-ready.",
+      "assertions": [
+        "Explicitly flags the contradiction between the 'COMPLETE / ready for production' status line and the outstanding items",
+        "States that the work is not production-ready as it stands",
+        "Names the stubbed webhook signature verification as a blocker",
+        "Notes that the rollback plan is untested and/or that refund idempotency is missing",
+        "Does not silently resolve the contradiction by adopting either the 'complete' or the 'incomplete' reading without noting the conflict",
+        "Notes it is running in staging with test-mode payment keys, i.e. not handling real money"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "investor-update-no-revenue-data",
+      "prompt": "Investor update goes out Friday. I need the product/engineering section \u2014 2 paragraphs max. Our lead investor is sharp and will absolutely call out anything that smells like spin. We have no revenue yet.\n\nQ3 engineering:\n- Smart Triage shipped to production: system now reads the user's screen context and automatically picks which of 17 writing actions to run, instead of the user choosing from a menu. Opt-in, local-only telemetry.\n- 162 routed interactions logged in the first telemetry window. Confirmation rate 68% (user accepted the auto-chosen action). 22 user corrections captured.\n- Filed provisional patent on the routing + adaptation mechanism (application 63/xxx,xxx, filed 2026-06-14).\n- Cross-platform: Windows/Linux app at v1.0.0, macOS port exists (community-built), iOS planning phase started.\n- 3 audit passes on the routing logic found and fixed 16 issues.\n\nNo pricing yet. No paying users. ~40 people in the private beta, we don't have retention numbers.",
+      "expected_output": "Investor-mode update that describes demonstrated capability and execution honestly, uses the 68% confirmation rate accurately as an early signal from 162 interactions, and does not imply revenue, retention, market traction, or defensibility beyond the filed provisional patent.",
+      "assertions": [
+        "Does not claim or imply revenue, paying customers, retention, or market traction",
+        "Makes clear there are no paying users and/or no pricing yet, rather than omitting it",
+        "Reports the 68% confirmation rate with its sample context (162 interactions / first telemetry window) rather than as an established product metric",
+        "Describes the patent accurately as a filed provisional application, not as a granted or issued patent",
+        "Does not assert a competitive moat, defensibility, or market position beyond what the source supports",
+        "Describes the shipped Smart Triage capability concretely enough that a non-technical investor understands what it does"
+      ]
+    }
+  ]
+}
