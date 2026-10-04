@@ -70,8 +70,8 @@ const consultingAppointments: Appointment[] = [
   {
     id: 'discovery',
     title: 'Discovery Call',
-    duration: '15 min',
-    badge: '15 min',
+    duration: '30 min',
+    badge: '30 min',
     description:
       'Schedule an initial discovery call with John Burkhardt at BKT Advisory to discuss your technical needs.',
     slug: 'discovery-call',
@@ -80,8 +80,8 @@ const consultingAppointments: Appointment[] = [
   {
     id: 'strategy',
     title: 'Strategic Planning',
-    duration: '30 min',
-    badge: '30 min',
+    duration: '60 min',
+    badge: '60 min',
     description:
       'Schedule a strategy session to discuss your project requirements, budget estimation, and how our advisory team can help you execute with precision.',
     slug: 'strategic-planning',
@@ -90,8 +90,9 @@ const consultingAppointments: Appointment[] = [
   {
     id: 'workshop',
     title: 'Workshop',
-    duration: '60 min',
-    badge: '60 min',
+    // Cal.com event length is 120 min (full window reserved); sessions may end early.
+    duration: '120 min',
+    badge: 'Up to 2 hrs',
     description:
       'Lock in a one-on-one session with our lead advisors to refine your technical strategy and ensure your infrastructure is built for long-term scalability.',
     slug: 'workshop',

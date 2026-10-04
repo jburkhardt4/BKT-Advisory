@@ -89,8 +89,11 @@ describe('ConsultingBookingPage (/schedule)', () => {
     ).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Workshop' })).toBeInTheDocument();
 
-    // Workshop duration matches the "N min" format used elsewhere for this event.
+    // Badges mirror the Cal.com event lengths (Workshop reserves 120 min).
+    expect(screen.getByText('30 min')).toBeInTheDocument();
     expect(screen.getByText('60 min')).toBeInTheDocument();
+    expect(screen.getByText('Up to 2 hrs')).toBeInTheDocument();
+    expect(screen.queryByText('15 min')).toBeNull();
 
     // Interview content must NOT be on this page.
     expect(screen.queryByText('Intro Call')).toBeNull();
