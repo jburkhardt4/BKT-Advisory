@@ -1,6 +1,6 @@
 # BKT Advisory
 
-This is a code bundle for BKT Advisory. The original project is ava`.ilable at`<https://www.figma.com/design/AEr09h1F0G6yCUhAm3c5N7/BKT-Advisory>
+This is a code bundle for BKT Advisory. The original project was available at <https://www.figma.com/design/AEr09h1F0G6yCUhAm3c5N7/BKT-Advisory>; however, I've unsubscribed my Figma Professional account, deprecating it to the free version as I do need it nor use it anymore.
 
 ————————————————————————————————
 
