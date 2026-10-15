@@ -1,0 +1,23 @@
+{
+  "name": "BKT-Advisory",
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "features": {
+    "ghcr.io/devcontainers/features/powershell:2": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.powershell"
+      ],
+      "settings": {
+        "terminal.integrated.profiles.linux": {
+          "PowerShell": {
+            "path": "pwsh"
+          }
+        },
+        "terminal.integrated.defaultProfile.linux": "PowerShell"
+      }
+    }
+  },
+  "postAttachCommand": "npm run startup:all"
+}
